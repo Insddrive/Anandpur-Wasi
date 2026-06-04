@@ -7,11 +7,9 @@
     <style>
         body { font-family: sans-serif; background: #f4f4f4; margin: 0; padding: 20px; }
         h1 { text-align: center; color: #333; }
-        /* ਮੀਨੂ ਡਿਜ਼ਾਈਨ */
         .menu { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-bottom: 30px; }
         .menu button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; background: #2b579a; color: white; font-weight: bold; }
         .menu button:hover { background: #1a3a6d; }
-        
         .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; max-width: 1000px; margin: auto; }
         .card { background: white; padding: 15px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
         .card img { width: 100%; height: 180px; object-fit: cover; border-radius: 5px; }
@@ -23,17 +21,15 @@
     <h1>ਸਿੱਖ ਇਤਿਹਾਸ ਗੈਲਰੀ</h1>
     
     <div id="menu" class="menu"></div>
-
     <div id="gallery" class="gallery"></div>
 
     <script>
-        const user = "YOUR_GITHUB_USERNAME"; // ਇੱਥੇ ਆਪਣਾ ਯੂਜ਼ਰਨੇਮ ਲਿਖੋ
-        const repo = "YOUR_REPO_NAME";       // ਇੱਥੇ ਆਪਣੀ ਰੈਪੋ ਦਾ ਨਾਮ ਲਿਖੋ
+        const user = "Insddrive"; // ਤੁਹਾਡਾ GitHub ਯੂਜ਼ਰਨੇਮ
+        const repo = "Anandpur-Wasi"; // ਤੁਹਾਡੀ ਰੈਪੋ ਦਾ ਨਾਮ
 
-        // ਇੱਥੇ ਆਪਣੇ ਫੋਲਡਰਾਂ ਦੇ ਨਾਮ ਲਿਖੋ (ਜਿਵੇਂ ਤੁਸੀਂ ਦੱਸੇ ਹਨ)
-        const folders = ["June 1984", "ਖਾੜਕੂ ਲਹਿਰ", "Black Bite", "Black Lows", "Black orders", "Black", "ਗਦਾਰ", "Others"];
+        // ਫੋਲਡਰਾਂ ਦੀ ਲਿਸਟ (ਇੱਥੇ Black Day ਕਰ ਦਿੱਤਾ ਹੈ)
+        const folders = ["June 1984", "ਖਾੜਕੂ ਲਹਿਰ", "Black Bite", "Black Lows", "Black orders", "Black Day", "ਗਦਾਰ", "Others"];
 
-        // ਮੀਨੂ ਬਣਾਉਣ ਲਈ
         const menuDiv = document.getElementById('menu');
         folders.forEach(folderName => {
             const btn = document.createElement('button');
@@ -47,13 +43,13 @@
             gallery.innerHTML = "ਲੋਡ ਹੋ ਰਿਹਾ ਹੈ...";
 
             try {
-                // encodeURIComponent ਫੋਲਡਰ ਦੇ ਨਾਮ ਵਿੱਚ ਸਪੇਸ ਨੂੰ ਸਹੀ ਕਰਦਾ ਹੈ
                 const response = await fetch(`https://api.github.com/repos/${user}/${repo}/contents/${encodeURIComponent(folderName)}`);
                 const data = await response.json();
                 
                 gallery.innerHTML = "";
                 if (!Array.isArray(data)) { gallery.innerText = "ਇਸ ਫੋਲਡਰ ਵਿੱਚ ਕੋਈ ਫਾਈਲ ਨਹੀਂ ਹੈ।"; return; }
 
+                // ਨੰਬਰ ਵਾਈਜ਼ ਸੌਰਟਿੰਗ (1, 2, 3...)
                 data.sort((a, b) => parseInt(a.name) - parseInt(b.name));
 
                 data.forEach(file => {
